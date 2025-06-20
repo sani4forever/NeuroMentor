@@ -3,8 +3,5 @@
     <style name="Base.Theme.NeuroMentor" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="android:statusBarColor">@color/background_dark</item>
-        <item name="android:windowLightStatusBar">false</item>
-
     </style>
 </resources>
