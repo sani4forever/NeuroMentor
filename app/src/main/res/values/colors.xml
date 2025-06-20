@@ -2,4 +2,21 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Основные цвета макета -->
+    <color name="background_dark">#1E1E1E</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="hint_gray">#D7CCC8</color>
+    <color name="edittext_background">#555555</color>
+    <color name="button_primary">#1f6e70</color>
+    <color name="button_text">#f7f7f7</color>
+
+    <!-- Дополнительные цвета для Material Design -->
+    <color name="colorPrimary">@color/button_primary</color>
+    <color name="colorOnPrimary">@color/button_text</color>
+    <color name="colorSurface">@color/background_dark</color>
+    <color name="colorOnSurface">@color/text_white</color>
+
+    <color name="dark_surface_variant">#121212</color>
+    <color name="surface">#1E1E1E</color>
 </resources>

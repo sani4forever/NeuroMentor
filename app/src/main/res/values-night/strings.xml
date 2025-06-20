@@ -1,14 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NeuroMentor</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="how_old_are_you">Сколько Вам лет?</string>
     <string name="age">Возраст</string>
     <string name="continue_btn">Продолжить</string>
     <string name="your_gender">Ваш пол:</string>
     <string name="male">Мужской</string>
     <string name="female">Женский</string>
-    <string name="other">Другое...</string>
+    <string name="other">Другое…</string>
     <string name="what_is_your_name">Как Вас зовут?</string>
     <string name="your_name">Ваше имя</string>
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nameFragment"
-        android:name="com.example.neuromentor.ui.NameFragment"
+        android:name="com.example.neuromentor.ui.fragments.NameFragment"
         android:label="NameFragment" >
         <action
             android:id="@+id/action_nameFragment_to_genderFragment"
@@ -15,6 +15,15 @@
     </fragment>
     <fragment
         android:id="@+id/genderFragment"
-        android:name="com.example.neuromentor.ui.GenderFragment"
-        android:label="GenderFragment" />
+        android:name="com.example.neuromentor.ui.fragments.GenderFragment"
+        android:label="GenderFragment" >
+        <action
+            android:id="@+id/action_genderFragment_to_ageFragment"
+            app:destination="@id/ageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ageFragment"
+        android:name="com.example.neuromentor.ui.fragments.AgeFragment"
+        android:label="fragment_age"
+        tools:layout="@layout/fragment_age" />
 </navigation>

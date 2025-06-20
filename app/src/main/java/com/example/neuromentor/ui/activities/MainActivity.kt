@@ -1,4 +1,4 @@
-package com.example.neuromentor.ui
+package com.example.neuromentor.ui.activities
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
