@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/nameFragment"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nameFragment">
 
     <fragment
         android:id="@+id/nameFragment"
         android:name="com.example.neuromentor.ui.fragments.NameFragment"
-        android:label="NameFragment" >
+        android:label="NameFragment">
         <action
             android:id="@+id/action_nameFragment_to_genderFragment"
             app:destination="@id/genderFragment" />
@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/genderFragment"
         android:name="com.example.neuromentor.ui.fragments.GenderFragment"
-        android:label="GenderFragment" >
+        android:label="GenderFragment">
         <action
             android:id="@+id/action_genderFragment_to_ageFragment"
             app:destination="@id/ageFragment" />
