@@ -1,14 +1,18 @@
 package com.example.neuromentor.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.neuromentor.R
 import com.example.neuromentor.databinding.FragmentNameBinding
 import com.example.neuromentor.viewmodels.PersonInfoViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class NameFragment : Fragment() {
 
@@ -26,11 +30,29 @@ class NameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.continueButton.setOnClickListener {
-            val action = NameFragmentDirections.actionNameFragmentToGenderFragment()
-            findNavController().navigate(action)
-        }
+        binding.continueButton.text = getString(R.string.skip_btn)
 
+        binding.nameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                binding.continueButton.text = if (s.isNullOrEmpty()) {
+                    getString(R.string.skip_btn)
+                } else {
+                    getString(R.string.continue_btn)
+                }
+            }
+        })
+
+        binding.continueButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
+            if (name.isNotEmpty()) {
+                viewModel.saveName(name)
+            } else {
+                viewModel.saveName(null)
+            }
+            findNavController().navigate(NameFragmentDirections.actionNameFragmentToGenderFragment())
+        }
     }
 
     override fun onDestroyView() {

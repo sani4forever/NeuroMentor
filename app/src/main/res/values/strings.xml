@@ -9,4 +9,7 @@
     <string name="other">Другое…</string>
     <string name="what_is_your_name">Как Вас зовут?</string>
     <string name="your_name">Ваше имя</string>
+    <string name="skip_btn">Пропустить</string>
+    <string name="enter_your_age">Пожалуйста, введите свой возраст</string>
+    <string name="enter_your_age_0_99">Пожалуйста, введите возраст от 0 до 99</string>
 </resources>
