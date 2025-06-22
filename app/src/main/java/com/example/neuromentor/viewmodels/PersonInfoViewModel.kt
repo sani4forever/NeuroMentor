@@ -19,9 +19,7 @@ class PersonInfoViewModel : ViewModel() {
 
     fun saveAge(age: Int) {
         viewModelScope.launch {
-            if (age in 0..99) {
-                _age.value = age
-            }
+            _age.value = age
         }
     }
 
