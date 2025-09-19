@@ -12,4 +12,12 @@
     <string name="skip_btn">Пропустить</string>
     <string name="enter_your_age">Пожалуйста, введите свой возраст</string>
     <string name="enter_your_age_0_99">Пожалуйста, введите возраст от 0 до 99</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="avatar">Avatar</string>
+    <string name="write_edit_text">Написать…</string>
+    <string name="send_btn">Send</string>
+    <string name="clear_context">Очистить контекст?</string>
+    <string name="sure_txt">Вы уверены, что хотите очистить историю диалога? Это действие нельзя будет отменить.</string>
+    <string name="cancel_btn">Отмена</string>
+    <string name="clear_btn">Очистить</string>
 </resources>
