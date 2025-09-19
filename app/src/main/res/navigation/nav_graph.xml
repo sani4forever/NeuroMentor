@@ -25,5 +25,14 @@
         android:id="@+id/ageFragment"
         android:name="com.example.neuromentor.ui.fragments.AgeFragment"
         android:label="fragment_age"
-        tools:layout="@layout/fragment_age" />
+        tools:layout="@layout/fragment_age" >
+        <action
+            android:id="@+id/action_ageFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dialogFragment"
+        android:name="com.example.neuromentor.ui.fragments.DialogFragment"
+        android:label="fragment_dialog"
+        tools:layout="@layout/fragment_dialog" />
 </navigation>

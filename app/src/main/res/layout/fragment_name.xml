@@ -25,7 +25,8 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:autofillHints="Person Name"
-        android:background="@color/edittext_background"
+        android:background="@color/background_grey"
+        android:fontFamily="sans-serif-light"
         android:hint="@string/your_name"
         android:inputType="textCapCharacters|textNoSuggestions"
         android:paddingStart="16dp"
@@ -63,5 +64,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

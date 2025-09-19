@@ -3,10 +3,12 @@ package com.example.neuromentor.ui.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.neuromentor.databinding.FragmentGenderBinding
+import com.example.neuromentor.models.Gender
 import com.example.neuromentor.viewmodels.PersonInfoViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,19 +29,30 @@ class GenderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonMale.setOnClickListener {
-            onButtonClickListener()
+        with(binding) {
+            listOf(buttonMale, buttonFemale, buttonOther).forEach {
+                it.setOnClickListener(onClickListener)
+            }
         }
-        binding.buttonFemale.setOnClickListener {
-            onButtonClickListener()
-        }
-        binding.buttonOther.setOnClickListener {
-            onButtonClickListener()
-        }
-
     }
 
-    private fun onButtonClickListener() {
+    private val onClickListener = OnClickListener { view ->
+        saveGender(view)
+        navigateToAgeFragment()
+    }
+
+    private fun saveGender(view: View) {
+        val genderInfo = with(binding) {
+            when (view) {
+                buttonMale -> Gender.MALE
+                buttonFemale -> Gender.FEMALE
+                else -> Gender.OTHER
+            }
+        }
+        viewModel.saveGender(genderInfo)
+    }
+
+    private fun navigateToAgeFragment() {
         val action = GenderFragmentDirections.actionGenderFragmentToAgeFragment()
         findNavController().navigate(action)
     }

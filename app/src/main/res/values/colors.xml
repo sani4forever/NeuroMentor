@@ -7,6 +7,8 @@
     <color name="background_dark">#1E1E1E</color>
     <color name="text_white">#FFFFFF</color>
     <color name="hint_gray">#D7CCC8</color>
+    <color name="background_grey">#666666</color>
+
     <color name="edittext_background">#555555</color>
     <color name="button_primary">#1f6e70</color>
     <color name="button_text">#f7f7f7</color>
