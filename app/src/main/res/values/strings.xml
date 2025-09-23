@@ -20,4 +20,5 @@
     <string name="sure_txt">Вы уверены, что хотите очистить историю диалога? Это действие нельзя будет отменить.</string>
     <string name="cancel_btn">Отмена</string>
     <string name="clear_btn">Очистить</string>
+    <string name="button_send_symbol">➤</string>
 </resources>

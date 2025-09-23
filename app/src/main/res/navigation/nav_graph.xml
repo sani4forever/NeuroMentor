@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/dialogFragment"
-        android:name="com.example.neuromentor.ui.fragments.DialogFragment"
+        android:name="com.example.neuromentor.ui.fragments.ChatFragment"
         android:label="fragment_dialog"
-        tools:layout="@layout/fragment_dialog" />
+        tools:layout="@layout/fragment_chat" />
 </navigation>

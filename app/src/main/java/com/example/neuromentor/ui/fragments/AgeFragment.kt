@@ -56,6 +56,8 @@ class AgeFragment : Fragment() {
             } else {
                 binding.ageEditText.error = getString(R.string.enter_your_age_0_99)
             }
+        } else {
+            navigateToAgeFragment()
         }
     }
 
