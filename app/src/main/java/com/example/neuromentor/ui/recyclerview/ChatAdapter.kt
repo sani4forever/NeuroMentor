@@ -1,18 +1,24 @@
 package com.example.neuromentor.ui.recyclerview
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.neuromentor.R
+import com.example.neuromentor.models.ChatMessage
+import com.example.neuromentor.models.NeuroChatMessage
+import com.example.neuromentor.models.UserChatMessage
 
-class ChatAdapter(private val messages: MutableList<ChatMessage>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
         private const val VIEW_TYPE_USER = 1
         private const val VIEW_TYPE_NEURO = 2
+        private const val VIEW_TYPE_LOADING = 3
     }
 
     inner class UserMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,9 +29,14 @@ class ChatAdapter(private val messages: MutableList<ChatMessage>) :
         val messageText: TextView = view.findViewById(R.id.text_message_body)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isFromUser) VIEW_TYPE_USER else VIEW_TYPE_NEURO
+    inner class MessageLoading(view: View) : RecyclerView.ViewHolder(view)
 
+    override fun getItemViewType(position: Int): Int {
+        return when (val item = getItem(position)) {
+            is UserChatMessage -> VIEW_TYPE_USER
+            is NeuroChatMessage -> item.text?.let { VIEW_TYPE_NEURO } ?: VIEW_TYPE_LOADING
+            else -> VIEW_TYPE_LOADING
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -42,35 +53,32 @@ class ChatAdapter(private val messages: MutableList<ChatMessage>) :
                 NeuroMessageViewHolder(view)
             }
 
+            VIEW_TYPE_LOADING -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_mesage_loading, parent, false)
+                MessageLoading(view)
+            }
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            VIEW_TYPE_USER -> {
-                val message = messages[position]
-                (holder as UserMessageViewHolder).messageText.text = message.text
-            }
-
-            VIEW_TYPE_NEURO -> {
-                val message = messages[position]
-                (holder as NeuroMessageViewHolder).messageText.text = message.text
-            }
+        val item = getItem(position)
+        when (holder) {
+            is UserMessageViewHolder -> holder.messageText.text = (item as UserChatMessage).text
+            is NeuroMessageViewHolder -> holder.messageText.text = (item as NeuroChatMessage).text
         }
     }
 
-    override fun getItemCount(): Int {
-        return messages.size
-    }
+    class DiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
+        override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+            return oldItem === newItem
+        }
 
-    fun addMessage(message: ChatMessage) {
-        messages.add(message)
-        notifyItemInserted(messages.size - 1)
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+            return oldItem == newItem
+        }
     }
 }
-
-// Класс данных для сообщения
-data class ChatMessage(
-    val text: String, val isFromUser: Boolean
-)
