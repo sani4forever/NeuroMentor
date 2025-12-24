@@ -13,6 +13,7 @@ import com.example.neuromentor.models.ChatMessage
 import com.example.neuromentor.models.NeuroChatMessage
 import com.example.neuromentor.models.UserChatMessage
 
+
 class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
@@ -21,15 +22,15 @@ class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(DiffCallba
         private const val VIEW_TYPE_LOADING = 3
     }
 
-    inner class UserMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class UserMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.text_message_body)
     }
 
-    inner class NeuroMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class NeuroMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.text_message_body)
     }
 
-    inner class MessageLoading(view: View) : RecyclerView.ViewHolder(view)
+    class MessageLoading(view: View) : RecyclerView.ViewHolder(view)
 
     override fun getItemViewType(position: Int): Int {
         return when (val item = getItem(position)) {

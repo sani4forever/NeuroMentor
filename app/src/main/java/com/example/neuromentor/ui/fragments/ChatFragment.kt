@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.example.neuromentor.databinding.FragmentChatBinding
-import com.example.neuromentor.models.UserChatMessage
 import com.example.neuromentor.ui.recyclerview.ChatAdapter
 import com.example.neuromentor.viewmodels.ChatViewModel
 import kotlinx.coroutines.launch
@@ -24,9 +24,11 @@ class ChatFragment : Fragment() {
 
     private val viewModel by viewModel<ChatViewModel>()
 
+    private val args: ChatFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         adapter = ChatAdapter()
         _binding = FragmentChatBinding.inflate(inflater, container, false)
@@ -41,25 +43,23 @@ class ChatFragment : Fragment() {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.messages.collect { messages ->
                         adapter.submitList(messages)
-                        viewModel.messages.value?.lastIndex?.let {
-                            binding.recyclerViewChat.smoothScrollToPosition(it)
+                        if (messages.isNotEmpty()) {
+                            val lastIndex = messages.size - 1
+                            binding.recyclerViewChat.post {
+                                binding.recyclerViewChat.smoothScrollToPosition(lastIndex)
+                            }
                         }
                     }
                 }
             }
-
             buttonSend.setOnClickListener(onSendClickListener)
         }
-
     }
 
     private val onSendClickListener: OnClickListener = OnClickListener {
-        with(binding.editTextMessage.text) {
-            if (this.isNotBlank()) {
-                viewModel.addMessage(UserChatMessage(text = this.toString()))
-            }
-            clear()
-        }
+        val text = binding.editTextMessage.text.toString()
+        viewModel.sendMessageToApi(text, args.userID)
+        binding.editTextMessage.text.clear()
     }
 
 

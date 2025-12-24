@@ -70,8 +70,11 @@ class AgeFragment : Fragment() {
     }
 
     private fun navigateToAgeFragment() {
-        val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment()
-        findNavController().navigate(action)
+        viewModel.registerAndGetId { userId ->
+
+            val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onDestroyView() {

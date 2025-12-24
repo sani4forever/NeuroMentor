@@ -14,41 +14,33 @@ class ChatViewModel(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
 
-    private val testData = mutableListOf(
-        UserChatMessage(
-            text = "Привет. Я постоянно тревожусь из-за работы, не могу расслабиться.",
-        ), NeuroChatMessage(
-            text = "Здравствуйте. Понимаю, как это изматывает. Расскажите, что именно вызывает наибольшее беспокойство?",
-        ), UserChatMessage(
-            text = "Начальник постоянно недоволен, боюсь, что меня уволят. И дедлайны давят.",
-        ), NeuroChatMessage(
-            text = "Страх потерять работу — это сильный стресс. Давайте попробуем одно упражнение. Сосредоточьтесь на дыхании. Вдох на четыре счета, задержка на четыре, выдох на четыре. Повторите три раза.",
-        ), UserChatMessage(
-            text = "Попробовал. Стало немного легче, спасибо.",
-        ), NeuroChatMessage(
-            text = "Отлично. Это простое упражнение помогает вернуться в настоящий момент и снизить уровень тревоги. Вы можете использовать его в любое время, когда почувствуете напряжение.",
-        )
-    )
+    private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
+    val messages: StateFlow<List<ChatMessage>> = _messages
 
-    private val _messages = MutableStateFlow<List<ChatMessage>?>(testData)
-    val messages: StateFlow<List<ChatMessage>?> = _messages
+    private var currentUserId = 0
+    private var currentSessionId: Int = 0
 
-    fun addMessage(chatMessage: ChatMessage) {
+    fun sendMessageToApi(userText: String, userId: Int) {
+        this.currentUserId = userId
+        val userMsg = UserChatMessage(text = userText)
+        _messages.value += userMsg
+
         viewModelScope.launch {
-            _messages.value = _messages.value?.plus(chatMessage)
-        }
+            try {
+                val response = chatRepository.getAiResponse(
+                    userId = currentUserId,
+                    sessionId = currentSessionId,
+                    message = userText
+                )
 
-        if (chatMessage is UserChatMessage) getAnswer(chatMessage)
-    }
-
-    private fun getAnswer(userMessage: UserChatMessage) {
-        addMessage(NeuroChatMessage())
-        viewModelScope.launch {
-            val answer = chatRepository.getAnswer(userMessage.text)
-            viewModelScope.launch {
-                _messages.value = _messages.value?.dropLast(1)
+                response?.let {
+                    currentSessionId = it.sessionId // Сохраняем ID сессии для следующих сообщений
+                    val aiMsg = NeuroChatMessage(text = it.answer)
+                    _messages.value += aiMsg
+                }
+            } catch (e: Exception) {
+                _messages.value += NeuroChatMessage(text = "Ошибка связи с сервером")
             }
-            addMessage(answer)
         }
     }
 }

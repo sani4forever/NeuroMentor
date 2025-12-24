@@ -34,5 +34,9 @@
         android:id="@+id/dialogFragment"
         android:name="com.example.neuromentor.ui.fragments.ChatFragment"
         android:label="fragment_dialog"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="userID"
+            app:argType="integer" />
+    </fragment>
 </navigation>
