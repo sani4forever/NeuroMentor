@@ -20,9 +20,6 @@ class ChatRepository(private val api: ChatApi) {
     suspend fun getAiResponse(userId: Int, sessionId: Int, message: String): AIResponse? {
         val request = ChatRequest(userId, sessionId, message)
         val response = api.sendMessage(request)
-        if (!response.isSuccessful) {
-            Log.e("API_DEBUG", "422 Error: ${response.errorBody()?.string()}")
-        }
 
         return response.body()
     }
