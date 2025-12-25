@@ -2,7 +2,7 @@ package com.example.neuromentor.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.neuromentor.data.ChatRepository
+import com.example.neuromentor.domain.repository.ChatRepository
 import com.example.neuromentor.models.ChatMessage
 import com.example.neuromentor.models.NeuroChatMessage
 import com.example.neuromentor.models.UserChatMessage
@@ -17,28 +17,32 @@ class ChatViewModel(
     private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val messages: StateFlow<List<ChatMessage>> = _messages
 
-    private var currentUserId = 0
     private var currentSessionId: Int = 0
 
     fun sendMessageToApi(userText: String, userId: Int) {
-        this.currentUserId = userId
-        val userMsg = UserChatMessage(text = userText)
-        _messages.value += userMsg
+        if (userText.isBlank()) return
 
         viewModelScope.launch {
+            _messages.value += UserChatMessage(text = userText)
+
+            val loadingMsg = NeuroChatMessage(text = null)
+            _messages.value += loadingMsg
+
             try {
                 val response = chatRepository.getAiResponse(
-                    userId = currentUserId,
+                    userId = userId,
                     sessionId = currentSessionId,
                     message = userText
                 )
 
+                _messages.value = _messages.value.filter { it != loadingMsg }
+
                 response?.let {
-                    currentSessionId = it.sessionId // Сохраняем ID сессии для следующих сообщений
-                    val aiMsg = NeuroChatMessage(text = it.answer)
-                    _messages.value += aiMsg
+                    currentSessionId = it.sessionId
+                    _messages.value += NeuroChatMessage(text = it.answer)
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
+                _messages.value = _messages.value.filter { it != loadingMsg }
                 _messages.value += NeuroChatMessage(text = "Ошибка связи с сервером")
             }
         }

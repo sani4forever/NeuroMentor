@@ -1,15 +1,17 @@
-package com.example.neuromentor.data
+package com.example.neuromentor.domain.repository
 
-import com.example.neuromentor.api.ChatApi
-import com.example.neuromentor.models.AIResponse
-import com.example.neuromentor.models.ChatRequest
-import com.example.neuromentor.models.UserRequest
-import com.example.neuromentor.models.UserResponse
+import android.util.Log
+import com.example.neuromentor.domain.api.ChatApi
+import com.example.neuromentor.domain.models.AIResponse
+import com.example.neuromentor.domain.models.ChatRequest
+import com.example.neuromentor.domain.models.UserRequest
+import com.example.neuromentor.domain.models.UserResponse
+
 
 class ChatRepository(private val api: ChatApi) {
 
     suspend fun registerUser(name: String, gender: String?, age: Int?): UserResponse? {
-        val request = UserRequest(name, gender.toString(), age)
+        val request = UserRequest(name, gender, age)
         val response = api.postUser(request)
 
         return if (response.isSuccessful) response.body() else null
@@ -19,7 +21,7 @@ class ChatRepository(private val api: ChatApi) {
         val request = ChatRequest(userId, sessionId, message)
         val response = api.sendMessage(request)
         if (!response.isSuccessful) {
-            android.util.Log.e("API_DEBUG", "422 Error: ${response.errorBody()?.string()}")
+            Log.e("API_DEBUG", "422 Error: ${response.errorBody()?.string()}")
         }
 
         return response.body()

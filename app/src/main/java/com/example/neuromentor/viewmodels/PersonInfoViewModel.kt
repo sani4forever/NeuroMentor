@@ -2,7 +2,7 @@ package com.example.neuromentor.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.neuromentor.data.ChatRepository
+import com.example.neuromentor.domain.repository.ChatRepository
 import com.example.neuromentor.models.Gender
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,11 +15,8 @@ class PersonInfoViewModel(private val chatRepository: ChatRepository) : ViewMode
     private val _name = MutableStateFlow<String?>(null)
     val name: StateFlow<String?> = _name
 
-    private val _gender = MutableStateFlow<Gender?>(null)
+    private val _gender = MutableStateFlow(Gender.OTHER)
     val gender: StateFlow<Gender?> = _gender
-
-    private val _userId = MutableStateFlow<Int?>(null)
-    val userId: StateFlow<Int?> = _userId
 
     fun saveName(name: String?) {
         _name.value = name
@@ -31,32 +28,31 @@ class PersonInfoViewModel(private val chatRepository: ChatRepository) : ViewMode
         }
     }
 
-    fun saveGender(gender: Gender?) {
+    fun saveGender(gender: Gender) {
         viewModelScope.launch {
             _gender.value = gender
         }
     }
 
-    fun registerAndGetId(onSuccess: (Int) -> Unit) {
+    fun registerAndGetId(onSuccess: (Int) -> Unit, onError: (String) -> Unit) {
         val currentName = name.value ?: ""
-
-        if (currentName.isBlank()) {
-            android.util.Log.e("API_CHECK", "Имя пустое, сервер вернет 422")
-        }
 
         viewModelScope.launch {
             try {
                 val response = chatRepository.registerUser(
                     name = currentName,
-                    gender = gender.value?.toString(),
+                    gender = gender.value.toString(),
                     age = age.value
                 )
 
-                response?.let {
-                    onSuccess(it.id)
+                if (response != null) {
+                    onSuccess(response.id)
+                } else {
+                    onError("Ошибка: Сервер не ответил")
                 }
             } catch (e: Exception) {
                 android.util.Log.e("REG_ERROR", "Registration failed", e)
+                onError("Нет соединения с сервером")
             }
         }
     }

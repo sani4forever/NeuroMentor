@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.neuromentor.R
@@ -70,11 +71,18 @@ class AgeFragment : Fragment() {
     }
 
     private fun navigateToAgeFragment() {
-        viewModel.registerAndGetId { userId ->
+        viewModel.registerAndGetId(
+            onSuccess = { userId ->
+                Toast.makeText(requireContext(),
+                    getString(R.string.connection_established), Toast.LENGTH_SHORT).show()
 
-            val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
-            findNavController().navigate(action)
-        }
+                val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
+                findNavController().navigate(action)
+            },
+            onError = { errorMessage ->
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        )
     }
 
     override fun onDestroyView() {

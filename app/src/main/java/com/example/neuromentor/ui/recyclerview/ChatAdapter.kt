@@ -69,6 +69,9 @@ class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(DiffCallba
         when (holder) {
             is UserMessageViewHolder -> holder.messageText.text = (item as UserChatMessage).text
             is NeuroMessageViewHolder -> holder.messageText.text = (item as NeuroChatMessage).text
+            is MessageLoading -> {
+
+            }
         }
     }
 
