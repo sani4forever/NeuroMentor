@@ -44,9 +44,8 @@ class ChatFragment : Fragment() {
                     viewModel.messages.collect { messages ->
                         adapter.submitList(messages)
                         if (messages.isNotEmpty()) {
-                            val lastIndex = messages.size - 1
                             binding.recyclerViewChat.post {
-                                binding.recyclerViewChat.smoothScrollToPosition(lastIndex)
+                                binding.recyclerViewChat.smoothScrollToPosition(messages.lastIndex)
                             }
                         }
                     }
