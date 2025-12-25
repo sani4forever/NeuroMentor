@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.neuromentor"
-    compileSdk = 35
+    compileSdk = 36
 
     buildFeatures {
         viewBinding = true
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId = "com.example.neuromentor"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -69,7 +69,8 @@ dependencies {
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation(libs.kotlinx.serialization.json)
 
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0") // Последняя стабильная версия
+    implementation (libs.retrofit)
+    implementation(libs.converter.gson)
 
     // Koin for Android
     implementation(libs.koin.android)
