@@ -73,8 +73,6 @@ class AgeFragment : Fragment() {
     private fun navigateToAgeFragment() {
         viewModel.registerAndGetId(
             onSuccess = { userId ->
-                Toast.makeText(requireContext(),
-                    getString(R.string.connection_established), Toast.LENGTH_SHORT).show()
 
                 val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
                 findNavController().navigate(action)
