@@ -52,7 +52,7 @@ class PersonInfoViewModel(private val chatRepository: ChatRepository) : ViewMode
                 }
             } catch (e: Exception) {
                 android.util.Log.e("REG_ERROR", "Registration failed", e)
-                onError("Нет соединения с сервером")
+                onError(e.message ?: "Ошибка: Нет соединения с сервером")
             }
         }
     }
