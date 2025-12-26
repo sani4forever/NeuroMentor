@@ -34,3 +34,15 @@ data class AIResponse(
     @SerializedName("session_id")
     val sessionId: Int
 )
+
+data class MessageResponse(
+    @SerializedName("id") val id: Int,
+    @SerializedName("sender") val sender: String,
+    @SerializedName("message_text") val messageText: String,
+    @SerializedName("created_at") val createdAt: String
+)
+
+data class HistoryResponse(
+    @SerializedName("session_id") val sessionId: Int,
+    @SerializedName("messages") val messages: List<MessageResponse>
+)

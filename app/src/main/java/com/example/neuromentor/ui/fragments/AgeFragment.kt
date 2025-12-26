@@ -73,7 +73,6 @@ class AgeFragment : Fragment() {
     private fun navigateToAgeFragment() {
         viewModel.registerAndGetId(
             onSuccess = { userId ->
-
                 val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
                 findNavController().navigate(action)
             },
