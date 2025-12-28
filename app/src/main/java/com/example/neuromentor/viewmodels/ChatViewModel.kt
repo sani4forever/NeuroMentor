@@ -47,4 +47,26 @@ class ChatViewModel(
             }
         }
     }
+
+    fun loadChatHistory(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val history = chatRepository.getHistory(userId, null)
+                history?.let { res ->
+                    currentSessionId = res.sessionId
+
+                    val mappedMessages = res.messages.map { msg ->
+                        if (msg.sender == "user") {
+                            UserChatMessage(text = msg.messageText)
+                        } else {
+                            NeuroChatMessage(text = msg.messageText)
+                        }
+                    }
+                    _messages.value = mappedMessages
+                }
+            } catch (_: Exception) {
+
+            }
+        }
+    }
 }
