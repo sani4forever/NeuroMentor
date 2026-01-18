@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.example.neuromentor.R
 import com.example.neuromentor.databinding.FragmentChatBinding
 import com.example.neuromentor.ui.recyclerview.ChatAdapter
 import com.example.neuromentor.viewmodels.ChatViewModel
@@ -43,16 +44,46 @@ class ChatFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.messages.collect { messages ->
-                        adapter.submitList(messages)
-                        if (messages.isNotEmpty()) {
-                            binding.recyclerViewChat.post {
+                        adapter.submitList(messages) {
+                            if (messages.isNotEmpty()) {
                                 binding.recyclerViewChat.smoothScrollToPosition(messages.lastIndex)
                             }
                         }
+
+                        val isEmpty = messages.isEmpty()
+                        binding.containerWelcome.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                        binding.scrollSuggestions.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                        binding.recyclerViewChat.visibility = if (isEmpty) View.GONE else View.VISIBLE
+
+                        if (isEmpty) setupSuggestions(listOf("Чувствую тревогу без причины", "У меня нет сил что-либо делать", "Скажи мне что-то поддерживающее","Чувствую себя одиноко"))
                     }
                 }
             }
             buttonSend.setOnClickListener(onSendClickListener)
+        }
+    }
+
+    private fun setupSuggestions(suggestions: List<String>) {
+        binding.chipGroupSuggestions.removeAllViews()
+
+        suggestions.forEach { text ->
+            val chip = layoutInflater.inflate(
+                R.layout.item_suggestion_chip,
+                binding.chipGroupSuggestions,
+                false
+            ) as com.google.android.material.chip.Chip
+
+            chip.apply {
+                this.text = text
+                setOnClickListener {
+                    viewModel.sendMessageToApi(text, args.userID)
+                    binding.scrollSuggestions.animate().alpha(0f).withEndAction {
+                        binding.scrollSuggestions.visibility = View.GONE
+                        binding.scrollSuggestions.alpha = 1f
+                    }
+                }
+            }
+            binding.chipGroupSuggestions.addView(chip)
         }
     }
 
