@@ -22,4 +22,6 @@
     <string name="clear_btn">Очистить</string>
     <string name="button_send_symbol">➤</string>
     <string name="connection_established">Соединение установлено</string>
+    <string name="hello">Здравствуйте!</string>
+    <string name="start_text">С чего начнем?</string>
 </resources>
