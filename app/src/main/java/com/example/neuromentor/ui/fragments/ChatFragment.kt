@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.neuromentor.R
+import com.google.android.material.chip.Chip
 import com.example.neuromentor.databinding.FragmentChatBinding
 import com.example.neuromentor.ui.recyclerview.ChatAdapter
 import com.example.neuromentor.viewmodels.ChatViewModel
@@ -71,7 +72,7 @@ class ChatFragment : Fragment() {
                 R.layout.item_suggestion_chip,
                 binding.chipGroupSuggestions,
                 false
-            ) as com.google.android.material.chip.Chip
+            ) as Chip
 
             chip.apply {
                 this.text = text
