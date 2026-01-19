@@ -25,7 +25,7 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:autofillHints="Person Name"
-        android:background="@color/background_grey"
+        android:background="@drawable/edittext_rounded_bg"
         android:fontFamily="sans-serif-light"
         android:hint="@string/your_name"
         android:inputType="textCapCharacters|textNoSuggestions"
