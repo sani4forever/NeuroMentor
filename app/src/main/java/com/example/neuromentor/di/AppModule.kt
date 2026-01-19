@@ -1,9 +1,11 @@
 package com.example.neuromentor.di
 
 import com.example.neuromentor.domain.api.ChatApi
+import com.example.neuromentor.domain.datastore.UserPreferencesRepository
 import com.example.neuromentor.domain.repository.ChatRepository
 import com.example.neuromentor.viewmodels.ChatViewModel
 import com.example.neuromentor.viewmodels.PersonInfoViewModel
+import com.example.neuromentor.viewmodels.StartViewModel
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -16,7 +18,7 @@ const val BASE_URL = "http://10.0.2.2:8000/api/v1/"
 
 val appModule = module {
 
-    viewModel { PersonInfoViewModel(get()) }
+    viewModel { PersonInfoViewModel(get(), get()) }
 
     viewModel { ChatViewModel(get()) }
 
@@ -39,4 +41,7 @@ val appModule = module {
     single<ChatApi> { get<Retrofit>().create(ChatApi::class.java) }
 
     single { ChatRepository(get()) }
+
+    single { UserPreferencesRepository(get()) }
+    single { StartViewModel(get()) }
 }

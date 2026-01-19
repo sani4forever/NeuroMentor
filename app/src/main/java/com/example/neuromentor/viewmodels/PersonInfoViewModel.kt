@@ -2,13 +2,14 @@ package com.example.neuromentor.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.neuromentor.domain.datastore.UserPreferencesRepository
 import com.example.neuromentor.domain.repository.ChatRepository
 import com.example.neuromentor.models.Gender
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PersonInfoViewModel(private val chatRepository: ChatRepository) : ViewModel() {
+class PersonInfoViewModel(private val chatRepository: ChatRepository, private val repository: UserPreferencesRepository) : ViewModel() {
     private val _age = MutableStateFlow<Int?>(null)
     val age: StateFlow<Int?> = _age
 
@@ -54,6 +55,12 @@ class PersonInfoViewModel(private val chatRepository: ChatRepository) : ViewMode
                 android.util.Log.e("REG_ERROR", "Registration failed", e)
                 onError(e.message ?: "Ошибка: Нет соединения с сервером")
             }
+        }
+    }
+
+    fun saveUserIdToPrefs(userId: Int) {
+        viewModelScope.launch {
+            repository.saveUserId(userId)
         }
     }
 }
