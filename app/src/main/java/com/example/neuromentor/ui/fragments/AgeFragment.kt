@@ -53,12 +53,12 @@ class AgeFragment : Fragment() {
             val age = ageText.toInt()
             if (age in 0..99) {
                 viewModel.saveAge(age)
-                navigateToAgeFragment()
+                navigateToDialogFragment()
             } else {
                 binding.ageEditText.error = getString(R.string.enter_your_age_0_99)
             }
         } else {
-            navigateToAgeFragment()
+            navigateToDialogFragment()
         }
     }
 
@@ -70,10 +70,11 @@ class AgeFragment : Fragment() {
         }
     }
 
-    private fun navigateToAgeFragment() {
+    private fun navigateToDialogFragment() {
         viewModel.registerAndGetId(
             onSuccess = { userId ->
                 val action = AgeFragmentDirections.actionAgeFragmentToDialogFragment(userId)
+                viewModel.saveUserIdToPrefs(userId)
                 findNavController().navigate(action)
             },
             onError = { errorMessage ->
