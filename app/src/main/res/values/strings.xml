@@ -25,7 +25,6 @@
     <string name="hello">Здравствуйте!</string>
     <string name="start_text">С чего начнем?</string>
     <string name="api_unavailable">Нет подключения к серверу</string>
-    <string name="check_connection">Проверьте подключение к интернету и повторите попытку</string>
     <string name="retryer">Повторить</string>
     <string name="error_icon">Иконка ошибки</string>
 </resources>
