@@ -22,6 +22,8 @@ val appModule = module {
 
     viewModel { ChatViewModel(get()) }
 
+    viewModel { StartViewModel(get()) }
+
     single {
         OkHttpClient.Builder()
             .connectTimeout(120, TimeUnit.SECONDS)
@@ -43,5 +45,4 @@ val appModule = module {
     single { ChatRepository(get()) }
 
     single { UserPreferencesRepository(get()) }
-    single { StartViewModel(get()) }
 }
